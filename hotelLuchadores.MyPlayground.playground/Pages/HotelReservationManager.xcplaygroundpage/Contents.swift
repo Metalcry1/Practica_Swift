@@ -9,7 +9,7 @@ struct Client {
 struct Reservation {
     var id: Int
     let nombreHotel: String
-    var listaDeClientes: [Client]
+    var listaDeReservas: [Client]
     var duracionEstancia: Int
     var precio: Double
     var desayuno: Bool
@@ -26,13 +26,13 @@ var idCode = 1
 
 class HotelReservationManager {
     
-    //DECLARO listaDeClientes es de tipo Reservation
-    var listaDeClientes: [Reservation] = []
+    //DECLARO listaDeReservas es de tipo Reservation
+    var listaDeReservas: [Reservation] = []
     var idAlreadyExists = false
 
     // FUNCION COMPRUEBA SI EL ID ESTA DUPLICADO
     func isIdDuplicada() -> Bool {
-        for id in listaDeClientes {
+        for id in listaDeReservas {
             if id.id == idCode {
                 idAlreadyExists = true
                 assert(false, "Número de Id ya utilizado")
@@ -47,8 +47,8 @@ class HotelReservationManager {
     
     // FUNCION QUE COMPRUEBA SI LA RESERVA YA ESTA DUPLICADA
     func isReservaDuplicada() -> Bool {
-        for reserva in listaDeClientes {
-            if listaDeClientes.contains(where: { $0.id == reserva.id}) {
+        for reserva in listaDeReservas {
+            if listaDeReservas.contains(where: { $0.id == reserva.id}) {
                 assert(false, "Error: reserva ya en el sistema.!")
                 return true
             }
@@ -68,7 +68,7 @@ class HotelReservationManager {
             let nuevaID = generarID()/2
             var agregarReserva = reserva
             agregarReserva.id = nuevaID
-            listaDeClientes.append(agregarReserva)
+            listaDeReservas.append(agregarReserva)
             print("Reserva agregada correctamente")
             generarID()
         }
@@ -84,16 +84,16 @@ class HotelReservationManager {
     // FUNCION PARA CANCELAR RESERVAS
     
     func cancelarReserva(id: Int) throws {
-        guard let index = listaDeClientes.firstIndex(where: { $0.id == id }) else {
+        guard let index = listaDeReservas.firstIndex(where: { $0.id == id }) else {
             throw ReservationError.reservaNoEncontrada
         }
-        listaDeClientes.remove(at: index)
+        listaDeReservas.remove(at: index)
         print("Reserva con ID \(id) cancelada correctamente.")
     }
     
     // RESERVAS ACTUALES
     var reservasActuales: [Reservation] {
-        return listaDeClientes
+        return listaDeReservas
     }
 }
 
@@ -105,10 +105,10 @@ var cliente3 = Client(nombre: "Krilin", edad: 44, altura: 1.53)
 var cliente4 = Client(nombre: "Roshi", edad: 350, altura: 1.60)
 
 //LISTADO DE RESERVAS
-var reserva1 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeClientes: [cliente1], duracionEstancia: 8, precio: 0.0, desayuno: true)
-var reserva2 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeClientes: [cliente2], duracionEstancia: 5, precio: 0.0, desayuno: false)
-var reserva3 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeClientes: [cliente3], duracionEstancia: 14, precio: 0.0, desayuno: true)
-var reserva4 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeClientes: [cliente4], duracionEstancia: 22, precio: 0.0, desayuno: false)
+var reserva1 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeReservas: [cliente1], duracionEstancia: 8, precio: 0.0, desayuno: true)
+var reserva2 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeReservas: [cliente2], duracionEstancia: 5, precio: 0.0, desayuno: false)
+var reserva3 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeReservas: [cliente3], duracionEstancia: 14, precio: 0.0, desayuno: true)
+var reserva4 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeReservas: [cliente4], duracionEstancia: 22, precio: 0.0, desayuno: false)
 
 
 
@@ -116,10 +116,10 @@ var reserva4 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeClie
 var open1 = HotelReservationManager()
 
 // CALCULO EL PRECIO DE LA RESERVA
-var precioReserva1 = open1.calcularPrecio(numeroDeClientes: Double(reserva1.listaDeClientes.count), duracionEstancia: Double(reserva1.duracionEstancia), desayuno: reserva1.desayuno)
-var precioReserva2 = open1.calcularPrecio(numeroDeClientes: Double(reserva2.listaDeClientes.count), duracionEstancia: Double(reserva2.duracionEstancia), desayuno: reserva2.desayuno)
-var precioReserva3 = open1.calcularPrecio(numeroDeClientes: Double(reserva3.listaDeClientes.count), duracionEstancia: Double(reserva3.duracionEstancia), desayuno: reserva3.desayuno)
-var precioReserva4 = open1.calcularPrecio(numeroDeClientes: Double(reserva4.listaDeClientes.count), duracionEstancia: Double(reserva4.duracionEstancia), desayuno: reserva4.desayuno)
+var precioReserva1 = open1.calcularPrecio(numeroDeClientes: Double(reserva1.listaDeReservas.count), duracionEstancia: Double(reserva1.duracionEstancia), desayuno: reserva1.desayuno)
+var precioReserva2 = open1.calcularPrecio(numeroDeClientes: Double(reserva2.listaDeReservas.count), duracionEstancia: Double(reserva2.duracionEstancia), desayuno: reserva2.desayuno)
+var precioReserva3 = open1.calcularPrecio(numeroDeClientes: Double(reserva3.listaDeReservas.count), duracionEstancia: Double(reserva3.duracionEstancia), desayuno: reserva3.desayuno)
+var precioReserva4 = open1.calcularPrecio(numeroDeClientes: Double(reserva4.listaDeReservas.count), duracionEstancia: Double(reserva4.duracionEstancia), desayuno: reserva4.desayuno)
 
 
 //GESTION UN BUCLE PARA IR AÑADIENDO RESERVAS
@@ -139,7 +139,7 @@ if !open1.isIdDuplicada() && !open1.isReservaDuplicada(){
     }
 
 // IMPRIMO LAS RESERVAS
-for reserva in open1.listaDeClientes {
+for reserva in open1.listaDeReservas {
     print(reserva)
 }
 
@@ -182,10 +182,10 @@ func testAddReservation() {
     var cliente3 = Client(nombre: "Krilin", edad: 44, altura: 1.53)
     var cliente4 = Client(nombre: "Roshi", edad: 350, altura: 1.60)
 
-    var reserva1 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeClientes: [cliente1], duracionEstancia: 8, precio: 0.0, desayuno: true)
-    var reserva2 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeClientes: [cliente2], duracionEstancia: 5, precio: 0.0, desayuno: false)
-    var reserva3 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeClientes: [cliente3], duracionEstancia: 14, precio: 0.0, desayuno: true)
-    var reserva4 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeClientes: [cliente4], duracionEstancia: 22, precio: 0.0, desayuno: false)
+    var reserva1 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeReservas: [cliente1], duracionEstancia: 8, precio: 0.0, desayuno: true)
+    var reserva2 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeReservas: [cliente2], duracionEstancia: 5, precio: 0.0, desayuno: false)
+    var reserva3 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeReservas: [cliente3], duracionEstancia: 14, precio: 0.0, desayuno: true)
+    var reserva4 = Reservation(id: 0, nombreHotel: "Hotal Namek Resort", listaDeReservas: [cliente4], duracionEstancia: 22, precio: 0.0, desayuno: false)
 
     // AGREGAR LA PRIMERA RESERVA CORRECTAMENTE
     open1.addReserva(reserva: reserva1)
@@ -217,8 +217,8 @@ func testCancelReservation() {
     var cliente1 = Client(nombre: "Goku", edad: 44, altura: 1.75)
     var cliente2 = Client(nombre: "Vegeta", edad: 48, altura: 1.64)
 
-    var reserva1 = Reservation(id: 1, nombreHotel: "Hotal Namek Resort", listaDeClientes: [cliente1], duracionEstancia: 8, precio: 0.0, desayuno: true)
-    var reserva2 = Reservation(id: 2, nombreHotel: "Hotal Namek Resort", listaDeClientes: [cliente2], duracionEstancia: 5, precio: 0.0, desayuno: false)
+    var reserva1 = Reservation(id: 1, nombreHotel: "Hotal Namek Resort", listaDeReservas: [cliente1], duracionEstancia: 8, precio: 0.0, desayuno: true)
+    var reserva2 = Reservation(id: 2, nombreHotel: "Hotal Namek Resort", listaDeReservas: [cliente2], duracionEstancia: 5, precio: 0.0, desayuno: false)
 
     open1.addReserva(reserva: reserva1)
     open1.addReserva(reserva: reserva2)
@@ -258,14 +258,14 @@ func testReservationPrice() {
     var cliente1 = Client(nombre: "Goku", edad: 44, altura: 1.75)
     var cliente2 = Client(nombre: "Vegeta", edad: 48, altura: 1.64)
 
-    var reserva1 = Reservation(id: 1, nombreHotel: "Hotal Namek Resort", listaDeClientes: [cliente1], duracionEstancia: 8, precio: 0.0, desayuno: true)
-    var reserva2 = Reservation(id: 2, nombreHotel: "Hotal Namek Resort", listaDeClientes: [cliente2], duracionEstancia: 8, precio: 0.0, desayuno: true)
+    var reserva1 = Reservation(id: 1, nombreHotel: "Hotal Namek Resort", listaDeReservas: [cliente1], duracionEstancia: 8, precio: 0.0, desayuno: true)
+    var reserva2 = Reservation(id: 2, nombreHotel: "Hotal Namek Resort", listaDeReservas: [cliente2], duracionEstancia: 8, precio: 0.0, desayuno: true)
 
     open1.addReserva(reserva: reserva1)
     open1.addReserva(reserva: reserva2)
 
-    let precioReserva1 = open1.calcularPrecio(numeroDeClientes: Double(reserva1.listaDeClientes.count), duracionEstancia: Double(reserva1.duracionEstancia), desayuno: reserva1.desayuno)
-    let precioReserva2 = open1.calcularPrecio(numeroDeClientes: Double(reserva2.listaDeClientes.count), duracionEstancia: Double(reserva2.duracionEstancia), desayuno: reserva2.desayuno)
+    let precioReserva1 = open1.calcularPrecio(numeroDeClientes: Double(reserva1.listaDeReservas.count), duracionEstancia: Double(reserva1.duracionEstancia), desayuno: reserva1.desayuno)
+    let precioReserva2 = open1.calcularPrecio(numeroDeClientes: Double(reserva2.listaDeReservas.count), duracionEstancia: Double(reserva2.duracionEstancia), desayuno: reserva2.desayuno)
 
     print("Precio de reserva 1: \(precioReserva1)")
     print("Precio de reserva 2: \(precioReserva2)")
